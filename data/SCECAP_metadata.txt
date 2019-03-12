@@ -1,0 +1,35 @@
+SCECAP Metadata
+
+BACKGROUND
+
+Environmental data from SC Department of Natural Resources' (SCDNR) South Carolina Estuarine and Coastal Assessment Program (SCECAP). This dataset represents a total of 767 sampling locations along the SC coast and covers a time period from 1999 to 2017. 
+
+CONTENTS
+ 
+STATION_ID: unique station code
+DATE: date when sites were sampled
+STATION_TYPE: 'OpenWater' or 'TidalCreek.' Tidal creeks sites are between 10 and 100 meters wide, and open water sites are >100m and represent larger tidal creeks, rivers, bays, and sounds. No sites are placed in the open ocean.
+StationLat and StationLon: coordinates (decimal degrees) of site
+HUC_08, HUC_10, HUC_12, HUC_14: USGS Hydrologic Unit Code (HUC) watersheds in which sites are located. More digits (14) are smaller watersheds.
+BIBI_CP: Benthic Index of Biotic Integrity (BIBI). Score 1-5 represents health of benthic communities. Higher BIBI's contain higher abundances of stress sensitive benthic taxa.
+ERMQ: Effects Range Median Quotient is a measure of sediment toxicity, and estimates the biological effect of 24 contaminant (higher scores represent worse conditions). 
+ERMQ_Metals: ERMQ score based on heavy metal pollutants
+ERMQ_PAH: ERMQ score based on polycyclic aromatic hydrocarbons 
+ERMQ_PCB: ERMQ score based on polychlorinated biphenyls
+ERMQ_Pest: ERMQ score based on pesticides.
+Met_Total:
+PAH_Total:
+PCB_Total:
+DDT_Total:
+PBDE_Total:
+SiltClay:
+TOC_sediment: total organic carbon in sediment
+Entero_DHEC: enterococcus bacteria from water sample. measured in colony-forming units/100mL. measured by SC DHEC.
+FecalColiform_DHEC: fecal coliform bacteria from water sample. measured in colony-forming units/100mL. measured by SC DHEC.
+NOx_DHEC: nitrate and nitrite concenctrations
+TKN_DHEC: total kjeldahl nitrogen
+TN_SCECAP: total nitrogen
+TP_SCECAP: total phosphorous
+TOC_Water: total organic carbon in water
+Chl_a_DHEC: chlorophyll-a. 
+
