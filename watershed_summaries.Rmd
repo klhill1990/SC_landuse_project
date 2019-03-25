@@ -1,0 +1,83 @@
+---
+title: "Watershed_Summaries"
+date: 3.25.2018
+output: html_notebook
+---
+
+```{r}
+library(tidyr)
+library(dplyr)
+```
+
+```{r}
+#import scecap data
+
+scecap <- read.csv("./data/SCECAP_data.csv")
+
+#use 'dplyr' functions to summarize environmental data by watershed
+
+HUC08_summary <- scecap %>% 
+  group_by(HUC_08) %>% 
+  summarize_at(vars("BIBI_CP","ERMQ","ERMQ_Metals_08", "ERMQ_PAH_13", "ERMQ_PCB_Total", "ERMQ_Pest_02"), mean, na.rm = TRUE)
+
+HUC10_summary <- scecap %>% 
+  group_by(HUC_10) %>% 
+  summarize_at(vars("BIBI_CP","ERMQ","ERMQ_Metals_08", "ERMQ_PAH_13", "ERMQ_PCB_Total", "ERMQ_Pest_02"), mean, na.rm = TRUE) 
+
+HUC12_summary <- scecap %>% 
+  group_by(HUC_12) %>% 
+  summarize_at(vars("BIBI_CP","ERMQ","ERMQ_Metals_08", "ERMQ_PAH_13", "ERMQ_PCB_Total", "ERMQ_Pest_02"), mean, na.rm = TRUE)  
+
+HUC14_summary <- scecap %>% 
+  group_by(HUC_14) %>% 
+  summarize_at(vars("BIBI_CP","ERMQ","ERMQ_Metals_08", "ERMQ_PAH_13", "ERMQ_PCB_Total", "ERMQ_Pest_02"), mean, na.rm = TRUE)  
+
+#count number of stations per watershed
+
+HUC08_stationcount <- scecap %>% group_by(HUC_08) %>% summarize(n_distinct(STATION_ID))
+HUC10_stationcount <- scecap %>% group_by(HUC_10) %>% summarize(n_distinct(STATION_ID))
+HUC12_stationcount <- scecap %>% group_by(HUC_12) %>% summarize(n_distinct(STATION_ID))
+HUC14_stationcount <- scecap %>% group_by(HUC_14) %>% summarize(n_distinct(STATION_ID))
+
+#join station count to summary data
+
+HUC08_joined <- full_join(HUC08_summary, HUC08_stationcount, by = "HUC_08")
+HUC10_joined <- full_join(HUC10_summary, HUC10_stationcount, by = "HUC_10")
+HUC12_joined <- full_join(HUC12_summary, HUC12_stationcount, by = "HUC_12")
+HUC14_joined <- full_join(HUC14_summary, HUC14_stationcount, by = "HUC_14")
+
+#rename HUC_xx to HUC_ID 
+
+HUC08_renamed <- rename(HUC08_joined, HUC_ID = HUC_08)
+HUC10_renamed <- rename(HUC10_joined, HUC_ID = HUC_10)
+HUC12_renamed <- rename(HUC12_joined, HUC_ID = HUC_12)
+HUC14_renamed <- rename(HUC14_joined, HUC_ID = HUC_14)
+
+
+#create new column of HUC digits (8,10,12,14)
+
+HUC08_renamed$HUC_DIGITS <- 8
+HUC10_renamed$HUC_DIGITS <- 10
+HUC12_renamed$HUC_DIGITS <- 12
+HUC14_renamed$HUC_DIGITS <- 14
+
+#combine into one file
+
+watershed_env_data <- bind_rows(HUC08_renamed, HUC10_renamed, HUC12_renamed, HUC14_renamed)
+
+
+#rename columns
+
+names(watershed_env_data) <- c("HUC_ID", "BIBI", "ERMQ", "ERMQ_METAL", "ERMQ_PAH", "ERMQ_PCB", "ERMQ_PEST", "NUMBER_STATIONS", "HUC_DIGITS")
+
+#reorder columns
+
+watershed_env_data <- watershed_env_data[c(1,9,8,2,3,4,5,6,7)]
+
+#print results
+
+watershed_env_data 
+
+write.csv(watershed_env_data, "./output/watershed_env_data.csv")
+```
+
