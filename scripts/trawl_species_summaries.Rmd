@@ -1,0 +1,29 @@
+---
+title: "trawl species summaries"
+date: 3.25.2019
+output: html_notebook
+---
+
+```{r}
+library(tidyr)
+library(dplyr)
+```
+
+```{r}
+#import trawl dataset
+
+trawl <- read.csv("./data/trawl_data.csv")
+
+#summarize data by station, counting number of unique species and totaling abundances
+
+trawl_summary <- trawl %>% group_by(STATION_ID) %>% summarize(n_distinct(SP_CODE), sum(ABUND_AREA))
+
+#rename columns
+
+names(trawl_summary) <- c("STATION_ID", "NUMBER_SPP", "TOTAL_ABUNDANCE")
+
+#view results 
+
+View(trawl_summary)
+```
+
