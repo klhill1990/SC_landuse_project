@@ -56,7 +56,7 @@ scecap <- read.csv("../data/SCECAP_data.csv")
 
 #join scecap environmental data with trawl species data
 
-scecap_joined <- full_join(trawl_richness, scecap_env, by = "STATION_ID", rm.na = T)
+scecap_joined <- full_join(trawl_richness, scecap_env, by = "STATION_ID")
 
 scecap_joined$BIBI_CP <- as.factor(scecap_joined$BIBI_CP)
 
