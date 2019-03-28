@@ -60,6 +60,11 @@ scecap_joined <- full_join(trawl_richness, scecap_env, by = "STATION_ID")
 
 scecap_joined$BIBI_CP <- as.factor(scecap_joined$BIBI_CP)
 
-plot(scecap_joined$SP_RICHNESS ~ scecap_joined$BIBI_CP)
+sp_rich_bibi <- ggplot(data = na.omit(scecap_joined), aes(x=BIBI_CP, y=SP_RICHNESS)) + 
+  geom_boxplot() + 
+  theme_minimal() + 
+  labs(y="Species Richness", x="BIBI")
+
+sp_rich_bibi
 ```
 
