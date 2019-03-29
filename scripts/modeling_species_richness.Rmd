@@ -1,0 +1,70 @@
+---
+title: "modeling_species_richness"
+output: html_notebook
+---
+```{r}
+library(ggplot2)
+library(tidyverse)
+```
+
+```{r}
+#import trawl data
+
+trawl <- read.csv("../data/trawl_species_data.csv")
+
+#use dplyr to group summarize data to get species richness for each station
+
+trawl_richness <- trawl %>% group_by(STATION_ID, STATION_TYPE, YEAR) %>% summarize(n_distinct(SP_CODE)) 
+
+#rename columns
+
+names(trawl_richness) <- c("STATION_ID", "STATION_TYPE", "YEAR","SP_RICHNESS")
+
+#make histograms of to show distrubtion of species richness values at each site type 
+
+sp_rich_openwater <- ggplot(data = subset(trawl_richness, STATION_TYPE == "OpenWater"), aes(SP_RICHNESS)) + 
+  geom_histogram(binwidth=1) + 
+  theme_minimal() + 
+  labs(title = "Histogram of Species Richness", subtitle = "Open Water SCECAP Stations (n = 406)", y="Count", x = "Species Richness")
+
+sp_rich_tidalcreek <- ggplot(data = subset(trawl_richness, STATION_TYPE == "TidalCreek"), aes(SP_RICHNESS)) + 
+  geom_histogram(binwidth=1) + 
+  theme_minimal() + 
+  labs(title = "Histogram of Species Richness", subtitle = "Tidal Creek SCECAP Stations (n = 399)", y="Count", x = "Species Richness")
+
+#make boxplot of species richness showing difference between two site types
+
+sp_rich_box <- ggplot(data = trawl_richness, aes(x=STATION_TYPE, y=SP_RICHNESS)) + 
+  geom_boxplot() + 
+  theme_minimal() + 
+  labs(y="Species Richness", x="SCECAP Station Type")
+
+#export graphs
+
+ggsave("../output/openwater_species_rich_hist.pdf", sp_rich_openwater)
+
+ggsave("../output/tidalcreek_species_rich_hist.pdf", sp_rich_tidalcreek)
+
+ggsave("../output/species_rich_boxplot.pdf", sp_rich_box)
+```
+
+```{r}
+#import scecap environmental data
+
+scecap <- read.csv("../data/SCECAP_data.csv")
+
+
+#join scecap environmental data with trawl species data
+
+scecap_joined <- full_join(trawl_richness, scecap_env, by = "STATION_ID")
+
+scecap_joined$BIBI_CP <- as.factor(scecap_joined$BIBI_CP)
+
+sp_rich_bibi <- ggplot(data = na.omit(scecap_joined), aes(x=BIBI_CP, y=SP_RICHNESS)) + 
+  geom_boxplot() + 
+  theme_minimal() + 
+  labs(y="Species Richness", x="BIBI")
+
+sp_rich_bibi
+```
+

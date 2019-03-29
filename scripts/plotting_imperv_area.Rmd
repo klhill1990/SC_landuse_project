@@ -72,6 +72,20 @@ scecap_scatterplot(scecap_imperv_huc08_all)
 scecap_scatterplot(scecap_imperv_huc10_all)
 scecap_scatterplot(scecap_imperv_huc12_all)
 scecap_scatterplot(scecap_imperv_huc14_all)
+<<<<<<< HEAD
+=======
+
+scecap_scatterplot(scecap_imperv_huc08_ow)
+scecap_scatterplot(scecap_imperv_huc10_ow)
+scecap_scatterplot(scecap_imperv_huc12_ow)
+scecap_scatterplot(scecap_imperv_huc14_ow)
+
+scecap_scatterplot(scecap_imperv_huc08_tc)
+scecap_scatterplot(scecap_imperv_huc10_tc)
+scecap_scatterplot(scecap_imperv_huc12_tc)
+scecap_scatterplot(scecap_imperv_huc14_tc)
+```
+>>>>>>> 0890de46d40583a2d3091e34e554c7dcf4fd247d
 
 scecap_scatterplot(scecap_imperv_huc08_ow)
 scecap_scatterplot(scecap_imperv_huc10_ow)
