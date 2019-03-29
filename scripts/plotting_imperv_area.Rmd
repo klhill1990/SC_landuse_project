@@ -9,10 +9,12 @@ library(tidyr)
 ```
 
 ```{r}
-#import data
+#import data, creating categories for open water sites (ow), tidal creek sites (tc), and all sites (all)
 
-scecap_watershed <- read.csv("./data/watershed_env_data.csv")
-impervious <- read.csv("./data/impervious_prct_cover.csv")
+scecap_watershed_all <- read.csv("../data/watershed_env_data.csv")
+scecap_watershed_ow  <- read.csv("../output/watershed_env_data_openwater.csv")
+scecap_watershed_tc  <- read.csv("../output/watershed_env_data_tidalcreek.csv")
+impervious <- read.csv("../data/impervious_prct_cover.csv")
 
 #subset impervious data (most recent year, upland cat = 2) 
 
@@ -20,18 +22,32 @@ impervious_subset <- filter(impervious, YEAR == 2011, UPLAND == 2)
 
 #join environmental data with impervious cover
 
-scecap_imperv_join <- full_join(scecap_watershed, impervious_subset, by = "HUC_ID")
+scecap_imperv_join_all <- full_join(scecap_watershed_all, impervious_subset, by = "HUC_ID")
+scecap_imperv_join_ow <- full_join(scecap_watershed_ow, impervious_subset, by = "HUC_ID")
+scecap_imperv_join_tc <- full_join(scecap_watershed_tc, impervious_subset, by = "HUC_ID")
 
 #remove HUCs w/ less than 3 stations
 
-scecap_imperv_join <- filter(scecap_imperv_join, NUMBER_STATIONS >2)
+scecap_imperv_join_all <- filter(scecap_imperv_join_all, NUMBER_STATIONS >2)
+scecap_imperv_join_ow <- filter(scecap_imperv_join_ow, NUMBER_STATIONS >2)
+scecap_imperv_join_tc <- filter(scecap_imperv_join_tc, NUMBER_STATIONS >2)
 
 #separate data by HUC digit
 
-scecap_imperv_huc08 <- filter(scecap_imperv_join, HUC_DIGITS.x == 8)
-scecap_imperv_huc10 <- filter(scecap_imperv_join, HUC_DIGITS.x == 10)
-scecap_imperv_huc12 <- filter(scecap_imperv_join, HUC_DIGITS.x == 12)
-scecap_imperv_huc14 <- filter(scecap_imperv_join, HUC_DIGITS.x == 14)
+scecap_imperv_huc08_all <- filter(scecap_imperv_join_all, HUC_DIGITS.x == 8)
+scecap_imperv_huc10_all <- filter(scecap_imperv_join_all, HUC_DIGITS.x == 10)
+scecap_imperv_huc12_all <- filter(scecap_imperv_join_all, HUC_DIGITS.x == 12)
+scecap_imperv_huc14_all <- filter(scecap_imperv_join_all, HUC_DIGITS.x == 14)
+
+scecap_imperv_huc08_ow <- filter(scecap_imperv_join_ow, HUC_DIGITS.x == 8)
+scecap_imperv_huc10_ow <- filter(scecap_imperv_join_ow, HUC_DIGITS.x == 10)
+scecap_imperv_huc12_ow <- filter(scecap_imperv_join_ow, HUC_DIGITS.x == 12)
+scecap_imperv_huc14_ow <- filter(scecap_imperv_join_ow, HUC_DIGITS.x == 14)
+
+scecap_imperv_huc08_tc <- filter(scecap_imperv_join_tc, HUC_DIGITS.x == 8)
+scecap_imperv_huc10_tc <- filter(scecap_imperv_join_tc, HUC_DIGITS.x == 10)
+scecap_imperv_huc12_tc <- filter(scecap_imperv_join_tc, HUC_DIGITS.x == 12)
+scecap_imperv_huc14_tc <- filter(scecap_imperv_join_tc, HUC_DIGITS.x == 14)
 ```
 
 ```{r}
@@ -52,9 +68,18 @@ scecap_scatterplot <- function(x)
   }
 
 #run function for each watershed category
-scecap_scatterplot(scecap_imperv_huc08)
-scecap_scatterplot(scecap_imperv_huc10)
-scecap_scatterplot(scecap_imperv_huc12)
-scecap_scatterplot(scecap_imperv_huc14)
-```
+scecap_scatterplot(scecap_imperv_huc08_all)
+scecap_scatterplot(scecap_imperv_huc10_all)
+scecap_scatterplot(scecap_imperv_huc12_all)
+scecap_scatterplot(scecap_imperv_huc14_all)
 
+scecap_scatterplot(scecap_imperv_huc08_ow)
+scecap_scatterplot(scecap_imperv_huc10_ow)
+scecap_scatterplot(scecap_imperv_huc12_ow)
+scecap_scatterplot(scecap_imperv_huc14_ow)
+
+scecap_scatterplot(scecap_imperv_huc08_tc)
+scecap_scatterplot(scecap_imperv_huc10_tc)
+scecap_scatterplot(scecap_imperv_huc12_tc)
+scecap_scatterplot(scecap_imperv_huc14_tc)
+```
