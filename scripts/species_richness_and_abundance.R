@@ -32,17 +32,6 @@ trawl_samples_complete <- bind_rows(trawl_samples_openwater, trawl_samples_tidal
 
 trawl_data <- inner_join(trawl_samples_complete, trawl_species, by = "SAMPLE_ID")
 
-#some trawls returned no species (sp code=X999), these are useful data points but will throw off species richness calculations. 
-
-##subset 'no catch' data and reattach later
-
-trawl_data_no_catch <- filter(trawl_data, SP_CODE == "X999")
-
-##remove trawls which returned no species
-
-trawl_data <- filter(trawl_data, SP_CODE != "X999")
-
-
 #Part 2: CALCUALTING SPECIES RICHNESS AND ABUNDANCE
 ##calculate species richness (number of unique species per trawl) and total abundance (total number of individuals per trawl)
 
@@ -74,18 +63,6 @@ trawl_species_final <- full_join(trawl_species_rich, trawl_species_abund, by = "
 
 trawl_species_final        <- trawl_species_final[,c(1,2,3,4,5,6,11)]
 names(trawl_species_final) <- c("STATION_ID", "SAMPLE_ID", "TOW_DIST_m", "STATION_TYPE", "YEAR", "SP_RICH", "TOTAL_ABUNDANCE")
-
-#reattach stations which returned no species (species richnes and abundance = 0)
-
-##add species richness colum populated with 0's
-
-trawl_data_no_catch$SP_RICH <- 0
-
-##select rows which match final dataset, rename and reorder accordingly
-
-trawl_data_no_catch        <- trawl_data_no_catch[,c(1,2,3,6,7,13,14)]
-names(trawl_data_no_catch) <- c("STATION_ID", "SAMPLE_ID", "TOW_DIST_m", "YEAR", "STATION_TYPE", "TOTAL_ABUNDANCE", "SP_RICH")
-trawl_data_no_catch        <- trawl_data_no_catch[c(1,2,3,5,4,7,6)]
 
 ##bind rows from no catch data to final data
 
