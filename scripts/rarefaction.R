@@ -18,6 +18,6 @@ S <- (ncol(spmatrix))
 raremax <- 10
 
 Srare <- rarefy(spmatrix, 1)
-plot(129, 1, xlab = "Observed No. of Species", ylab = "Rarefied No. of Species")
+plot(129, 1, xlab = "Observed No. of Species", ylab = "Rarefied Number of Species")
 abline(0, 1)
 rarecurve(spmatrix, step = 20, sample = 0, col = "blue", cex = 0.6)
