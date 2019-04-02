@@ -1,14 +1,30 @@
 library(tidyverse)
 
-
 trawl_sp <- read.csv("./data/trawl_richness_abundance.csv")
 
+trawl_subsample <- function(n) 
+  {
+  subsampled_data <- trawl_sp %>% group_by(YEAR, STATION_TYPE) %>% sample_n(n, replace = T)
+  }
 
-View(trawl_sp)
+trawl_replicated <- replicate(10, trawl_subsample(15), simplify = F)
 
-station_year <- trawl_sp %>% group_by(YEAR, STATION_TYPE) %>% summarize(n_distinct(STATION_ID))
-View(station_year)
+for (i in 1:10) 
 
-station_random <- trawl_sp %>% group_by(YEAR, STATION_TYPE) %>% sample_n(15, replace = T)
+    {
+  output_df <- data.frame(NULL, nrows = 40, ncol = 5)
+  new_df <- as.data.frame(trawl_replicated[i])
+  subsample_avgs <- new_df %>% group_by(YEAR, STATION_TYPE) %>% summarize_at(c("SP_RICH", "ABUNDANCE"),mean)
+  subsample_avgs <- as.data.frame(subsample_avgs)
+  output_df[[i]] <- subsample_avgs
+  }
 
-View(station_random)
+
+
+
+
+
+
+plot(SP_RICH ~ YEAR, data = subset(subsample_avgs, STATION_TYPE == "TidalCreek"))
+plot(SP_RICH ~ YEAR, data = subsample_avgs)
+subsampled_data %>% group_by(YEAR, STATION_TYPE) %>% summarize_at(c("SP_RICH", "ABUNDANCE"),mean)
