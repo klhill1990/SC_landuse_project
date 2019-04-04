@@ -77,3 +77,4 @@ plot(log(SP_RICH + 1) ~ log(TRAWL_DIST_m), data = subset(trawl_final, STATION_TY
 abun_tc_lm  <- lm(log(ABUNDANCE + 1) ~ log(TRAWL_DIST_m), data = subset(trawl_final, STATION_TYPE == "TidalCreek"))
 
 plot(log(ABUNDANCE + 1) ~ log(TRAWL_DIST_m), data = subset(trawl_final, STATION_TYPE == "TidalCreek")) + abline(abun_tc_lm)
+
