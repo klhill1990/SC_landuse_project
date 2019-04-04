@@ -65,3 +65,7 @@ output_matrix_final <- rbind(output_matrix_tidal, output_matrix_open, output_mat
 #summarize results
 summary_stats <-  output_matrix_final %>% group_by(STATION_TYPE) %>% summarize_at(c("INTERCEPT", "SLOPE"), mean)
 summary_stats
+
+
+
+
