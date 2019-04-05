@@ -9,7 +9,7 @@ trawl_raw_data <- read.csv("./data/trawl_species_data_raw.csv")
 trawl_new <- trawl_raw_data %>% group_by(STATION_ID) %>% summarize(n_distinct(SP_CODE, na.rm = T), sum(ABUNDANCE))
 
 #total trawl distances by removing duplicate records created by rows of species, group by station, and total trawl tow distance
-trawl_tow_dist <- trawl_raw_data[,c(3,4,6)] %>% distinct(trawl_raw_data, SAMPLE_ID, .keep_all = T) %>% group_by(STATION_ID) %>% summarize(sum(TOW_DIST_m))
+trawl_tow_dist <- trawl_raw_data[,c(3,4,6)] %>% distinct(SAMPLE_ID, .keep_all = T) %>% group_by(STATION_ID) %>% summarize(sum(TOW_DIST_m))
 
 #combine resulting dataframes back into one
 
