@@ -80,7 +80,26 @@ names(output_ow) <- c("RICHNESS", "SD" , "YEAR")
 openwater_final <- output_ow[c(3,1,2)]
 
 
-#plot results
+sp_matrix03 <- trawl_data %>% filter(STATION_TYPE == "OpenWater", YEAR == 2003)
+sp_matrix03 <- sp_matrix03[,5:133]
+sp_accum03 <- specaccum(sp_matrix03)
+plot(sp_accum03, xlab = "Sites Sampled", ylab = "Species Richness", main = "2003 Open Water Sites") + abline(v=11)
+
+
+#PLOT RESULTS
+
+#also plot example of species accumulation curve, for this example I chose year 2003
+
+sp_matrix03_ow <- trawl_data %>% filter(STATION_TYPE == "OpenWater", YEAR == 2003)
+sp_matrix03_ow <- sp_matrix03_ow[,5:133]
+sp_accum03_ow <- specaccum(sp_matrix03_ow)
+sp_accum_openwater_2003 <- plot(sp_accum03_ow, xlab = "Sites Sampled", ylab = "Species Richness", main = "2003 Open Water Sites") + abline(v=11)
+
+sp_matrix03_tc <- trawl_data %>% filter(STATION_TYPE == "TidalCreek", YEAR == 2003)
+sp_matrix03_tc <- sp_matrix03_tc[,5:133]
+sp_accum03_tc <- specaccum(sp_matrix03_tc)
+sp_accum_tidalcreek_2003 <- plot(sp_accum03_tc, xlab = "Sites Sampled", ylab = "Species Richness", main = "2003 Tidal Creek Sites") + abline(v=12)
+
 
 tidalcreek_plot <-  qplot(data = tidalcreek_final, x = YEAR, y = RICHNESS) +
                     geom_errorbar(aes(x= YEAR, ymin=RICHNESS - SD, ymax= RICHNESS + SD), width=0.25) +
