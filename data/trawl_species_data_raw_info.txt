@@ -1,0 +1,17 @@
+TRAWL SPECIES DATA (RAW) INFO
+
+BACKGROUND
+
+This dataset is taken directly from DNR's SCECAP database and contains species counts taken from SCECAP trawls from 1999 to 2018. 
+
+CONTENTS
+
+YEAR: Year in which sample was taken (note that SCECAP only samples in the summer months)
+STATION_TYPE: OpenWater and TidalCreek signify the type of water body being sampled (determined by channel width). Protocol states that each trawl in an open water sites should be 500m and 250m in tidal creek sites. 
+STATION_ID: Unique ID for each SCECAP Station
+SAMPLE_ID: Unique ID for each trawl(sample). 2 trawls are taken at each station. (in most fo this project's analyses, samples are lumped together by station) 
+STATION_DEPTH_m: Depth of water taken before each trawl. 
+TOW_DIST_m: Distance in which trawl net is towed behind boat. 
+SP_CODE: Unique species code (see trawl_species_reference for more information on species)
+SP_NAME: Scientific name of species
+ABUNDANCE: number of individuals of each species caught during trawl

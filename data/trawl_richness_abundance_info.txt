@@ -1,0 +1,3 @@
+TRAWL RICHNESS AND ABUNDANCE INFO
+
+This file contains species richness (number of distinct species) and abundance (total number of individuals caught) for SCECAP trawls. Trawls which did not match the target trawl length (500m for tidal creeks, 1000m for open water) or did not return any species are not included in this dataset. These data were obtained from the raw trawl data ("trawl_species_data_raw.csv") and were filtered and summarized in MS Excel using the Pivot Table function. 

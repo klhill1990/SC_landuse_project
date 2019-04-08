@@ -1,0 +1,3 @@
+SPECIES MATRIX INFO
+
+Community matrix of species abundances from SCECAP trawls from 1999 to 2018. Columns represent species (identified by species codes like A028...) and rows are SCECAP stations. Data compiled into matrix from raw trawl data ("trawl_species_data_raw.csv") where trawls that did not match target length (500m for tidal creeks, 1000m for open water) or returned no species are removed. This matrix corresponds to the species matrix reference dataset where rows match with STATION_ID's. Species codes can be matched to species names and other taxonomic information via the trawl_species_reference dataset. 

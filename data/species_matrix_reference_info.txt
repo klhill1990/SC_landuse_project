@@ -1,0 +1,3 @@
+SPECIES MATRIX REFERENCE INFO
+
+This dataset corresponds with the species matrix by rows. This reference dataset provides the STATION_ID, STATION_TYPE (open water vs. tidal creek), YEAR, and AVG_STATION_DEPTH_m. Trawls which didn't match the target trawl length (500m for tidal creeks, 1000m for open water) or returned no species are removed from this dataset.

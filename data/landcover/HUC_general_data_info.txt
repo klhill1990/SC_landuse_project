@@ -1,0 +1,22 @@
+HUC General Data Information
+
+BACKGROUND
+
+HUC stands for 'Hydrologic Unit Code' which are watersheds delineated by the USGS for all of the United States. The number digits in a HUC identify the size of the watershed, in this dataset 8-digit HUCs are the largest watershed and 14-digit HUCs are the smallest watershed. HUCs are also nested within one each, so that HUCs-304020406 and 304020408 are completely contatined within the larger HUC-3040204. This dataset includes all HUCs near the South Carolina coast, with some HUCs extending into neighboring NC and GA. 
+
+CONTENT
+
+HUC_ID: USGS Hydrologic Unit Code identifier. 
+HUC_DIGITS: Number of digits in HUC.
+NAME: Common name of watershed. (note that 14-digit HUCs do not have these labels)
+STATE: US state in which watershed is located. 
+TOTAL_AREA: total area of watershed (meters squared)
+UPLAND_1_AREA: area of watershed excluding water (meters squared)
+UPLAND_2_AREA: area of watershed excluding water and tidally flooded areas (meters squared)
+*see CCAP_landcover_prcts_data for more information on how these UPLAND categories were calculated. 
+
+SOURCE
+
+USGS Watershed Boundary Dataset
+https://www.usgs.gov/news/national-hydrography-dataset-watershed-boundary-dataset-map-service-improvement
+

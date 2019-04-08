@@ -1,0 +1,3 @@
+TRAWL SPECIES REFERENCE
+
+This dataset contains reference data for all species caught in trawl nets during SCECAP surveys. The SP_CODE is a unique identifier used in the SCECAP data and can be easily indexed to other datasets in this project. Some species names have changed since the beginning of SCECAP's data collection, the original taxonomic name (SpCodeTaxon) and the new (CorrectedTaxonName) are included in this file. 
