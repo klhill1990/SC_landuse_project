@@ -1,4 +1,5 @@
-#RAREFACTION
+#RAREFACTION (in progress)
+##use 'rarefaction' to compare species richness across stations with different trawl lengths
 
 #load required packages
 library(tidyverse)

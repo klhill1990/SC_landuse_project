@@ -5,7 +5,7 @@ library(ggplot2)
 library(ggmap)
 
 #import datasets
-scecap <- read.csv("./data/SCECAP_data.csv")
+scecap <- read.csv("./data/landcover/SCECAP_data.csv")
 
 #trim dataset to only station ID, lat, lon, station type, and year
 

@@ -8,7 +8,7 @@ library(ggplot2)
 
 #import datasets
 trawldata <- read.csv("./data/trawl_species_data_raw.csv")
-
+trawlsp <- read.csv("./data/trawl_richness_abundance.csv")
 
 #SITE SUMMARIES
 
@@ -96,7 +96,7 @@ dev.off()
 ##species richness
 
 sp_rich_box <- 
-  ggplot(data = trawl_sp, aes(x=STATION_TYPE, y=SP_RICH)) + 
+  ggplot(data = trawlsp, aes(x=STATION_TYPE, y=SP_RICH)) + 
   geom_boxplot() + 
   theme_minimal() + 
   labs(y="Species Richness", x="SCECAP Station Type")
@@ -104,7 +104,7 @@ sp_rich_box <-
 ##total abundance
 
 abund_box <- 
-  ggplot(data = trawl_sp, aes(x=STATION_TYPE, y=log(ABUNDANCE))) + 
+  ggplot(data = trawlsp, aes(x=STATION_TYPE, y=log(ABUNDANCE))) + 
   geom_boxplot() + 
   theme_minimal() + 
   labs(y="Total Abundance (log transformed)", x="SCECAP Station Type")
