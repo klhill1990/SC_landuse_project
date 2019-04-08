@@ -4,10 +4,12 @@
 
 
 #load required packages
+
 library(tidyverse)
 library(ggplot2)
 
 #import datasets
+
 trawl_spp <- read.csv("./data/trawl_richness_abundance.csv")
 
 #use group by and summarize functions to calculate average species richness and abundance per station (separated by station type) per year (with standard deviations) 
