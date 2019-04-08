@@ -4,6 +4,7 @@
 #load required packages
 library(tidyverse)
 library(gridExtra)
+library(ggplot2)
 
 #import datasets
 trawldata <- read.csv("./data/trawl_species_data_raw.csv")
@@ -89,3 +90,27 @@ png("./output/summary_table.png", height = 50*nrow(trawl_summary_table), width =
 grid.table(trawl_summary_table)
 dev.off()
 
+
+#CREATE BOXPLOTS TO SHOW DIFFERENCES IN STATION TYPE
+
+##species richness
+
+sp_rich_box <- 
+  ggplot(data = trawl_sp, aes(x=STATION_TYPE, y=SP_RICH)) + 
+  geom_boxplot() + 
+  theme_minimal() + 
+  labs(y="Species Richness", x="SCECAP Station Type")
+
+##total abundance
+
+abund_box <- 
+  ggplot(data = trawl_sp, aes(x=STATION_TYPE, y=log(ABUNDANCE))) + 
+  geom_boxplot() + 
+  theme_minimal() + 
+  labs(y="Total Abundance (log transformed)", x="SCECAP Station Type")
+
+
+##export as PDFs
+
+ggsave("./output/boxplot_richness.pdf", sp_rich_box)
+ggsave("./output/boxplot_abundance.pdf", abund_box)
