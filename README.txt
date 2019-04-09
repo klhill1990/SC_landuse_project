@@ -9,3 +9,6 @@ Contained in this repository are several scripts written in R to manipulate and 
 
 4. Output
 The output folder contains tables, graphs, and maps created by the scripts. Some of these figures include the change in species richness over time and a map of all the SCECAP stations. 
+
+5. Data
+Within the data folder are the source data in .csv format. More information on each data file can be found in the corresponding 'info' text file.
