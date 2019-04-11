@@ -1,20 +1,28 @@
-##1. About this Project
+---
+output: html_document
+title: README
+author: Lloyd Hill
+---
+
+
+
+###1. About this Project
 
 The goal of this project is to evaluate spatial and temporal trends in biodiversity within South Carolina's tidal creeks and estuaries. The data used in this project is from the SCECAP program and includes nekton species from their trawling efforts. One challenge in measuring biodiversity on such a large scale is differences in sample size. For example, some sample sites had longer trawl distances and some years had more sample sites. 
 
-## 2. About SCECAP
+### 2. About SCECAP
 SCECAP, South Carolina Estuarine and Coastal Assessment Program, is an envioronmental monitoring program established by the state's department of natural resources. It has been surveying tidal creeks and estuaries along the entire SC coast since 1999. Data collected from this program includes water quality, bacterial contamination, organic and heavy metal pollutants, and biodiversity. More information on SCECAP can be found at "http://www.dnr.sc.gov/marine/scecap/".
 
-## 3. About Trawl Data
+### 3. About Trawl Data
 Trawling is a technique where a net is dragged behind a boat to sample species from the water column. The catch is brought on board, identified down to the species level, and counted before being returned to the water. These data include number of individuals (abundance) and a species identifier (species code). Most species are fish, however crustaceans are also included. 
 
-##Contents
+###Contents
 
-#Scripts
+####Scripts
 Contained in this repository are several scripts written in R to manipulate and visualize the SCECAP trawl data. The two biodiversity metrics used in these analyses are species richness and abundance. Species richness is the number of different species sampled, whereas abundance is the total number of individuals caught. One challenge in measuring biodiversity on such a large scale is differences in sample size. For example, some sample sites had longer trawl distances and some years had more sample sites. Many scripts allow for the comparison of these two biodiversity metrics across years and sample stations. Contained in the scripts folder is a guide to each script. 
 
-#Output
+####Output
 The output folder contains tables, graphs, and maps created by the scripts. Some of these figures include the change in species richness over time and a map of all the SCECAP stations. 
 
-#Data
+####Data
 Within the data folder are the source data in .csv format. Data on landcover and land use, which will be used in future analyses are stored in the landcover subfolder. More information on each data file can be found in the corresponding 'info' text file.
