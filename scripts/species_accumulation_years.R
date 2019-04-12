@@ -1,13 +1,15 @@
-#SAMPLE BASED RAREFACTION AND SPECIES ACCUMULATION CURVES
+#SAMPLE-BASED RAREFACTION AND SPECIES ACCUMULATION CURVES
 #use sample-based rarefaction to model the change in species richness over time. 
 
 
-#load required packages
+#LOAD PACKAGES ----
 
 library(tidyverse)
 library(vegan)
 library(ggplot2)
+library(nlme)
 
+##READY DATA ----
 
 #import datasets
 
@@ -19,6 +21,7 @@ trawl_matrix_ref <- read.csv("./data/species_matrix_reference.csv")
 
 trawl_data <- cbind(trawl_matrix_ref, trawl_matrix)
 
+#SPECIES ACCUMULATION FOR LOOPS FOR RAREFIED RICHNESS ----
 
 #create empty matrix to store results of loops
 
@@ -86,7 +89,7 @@ sp_accum03 <- specaccum(sp_matrix03)
 plot(sp_accum03, xlab = "Sites Sampled", ylab = "Species Richness", main = "2003 Open Water Sites") + abline(v=11)
 
 
-#PLOT RESULTS
+#PLOT RESULTS ------
 
 #also plot example of species accumulation curve, for this example I chose year 2003
 
@@ -118,11 +121,14 @@ ggsave("./output/tidalcreek_species_accum.pdf", tidalcreek_plot)
 ggsave("./output/openwater_species_accum.pdf", openwater_plot)
 
 
-#view linear model results
+#MODEL RESULTS ----
 
-tidalcreek_lm <- lm(RICHNESS ~ YEAR, data = tidalcreek_final)
-openwater_lm  <- lm(RICHNESS ~ YEAR, data = openwater_final)
+#Use GLS model with temporal autocorrelation (the effect of years on residuals) 
 
-summary(tidalcreek_lm)
-summary(openwater_lm)
-        
+tidalcreek_gls <- gls(RICHNESS ~ YEAR, data = tidalcreek_final, correlation = corAR1(form = ~ YEAR))
+openwater_gls  <- gls(RICHNESS ~ YEAR, data = openwater_final, correlation = corAR1(form = ~ YEAR))
+
+#view model results
+
+summary(tidalcreek_gls)
+summary(openwater_gls)

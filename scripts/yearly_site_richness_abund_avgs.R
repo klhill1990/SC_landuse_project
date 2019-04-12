@@ -7,10 +7,12 @@
 
 library(tidyverse)
 library(ggplot2)
+library(nlme)
 
 #import datasets
 
 trawl_spp <- read.csv("./data/trawl_richness_abundance.csv")
+
 
 #use group by and summarize functions to calculate average species richness and abundance per station (separated by station type) per year (with standard deviations) 
 
@@ -69,3 +71,20 @@ summary(abund_tc_lm)
 summary(abund_ow_lm)
 summary(srich_tc_lm)
 summary(srich_ow_lm)
+
+#use GLS with temporal autocorrelation (years) 
+
+abund_tc_gls <- gls(ABUNDANCE_avg ~ YEAR, data = subset(trawl_yearly_summary, STATION_TYPE == "TidalCreek"), correlation = corAR1(form = ~ YEAR))
+abund_ow_gls <- gls(ABUNDANCE_avg ~ YEAR, data = subset(trawl_yearly_summary, STATION_TYPE == "OpenWater"), correlation = corAR1(form = ~ YEAR))
+srich_tc_gls <- gls(SP_RICH_avg ~ YEAR, data = subset(trawl_yearly_summary, STATION_TYPE == "TidalCreek"), correlation = corAR1(form = ~ YEAR))
+srich_ow_gls <- gls(SP_RICH_avg ~ YEAR, data = subset(trawl_yearly_summary, STATION_TYPE == "OpenWater"), correlation = corAR1(form = ~ YEAR))
+
+summary(abund_tc_gls)
+summary(abund_ow_gls)
+summary(srich_tc_gls)
+summary(srich_ow_gls)
+
+#compare fit of models using AIC
+
+AIC(abund_tc_lm, abund_tc_gls, abund_ow_lm, abund_ow_gls, srich_tc_lm, srich_tc_gls, srich_ow_lm, srich_ow_gls)
+

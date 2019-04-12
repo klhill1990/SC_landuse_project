@@ -114,3 +114,13 @@ abund_box <-
 
 ggsave("./output/boxplot_richness.pdf", sp_rich_box)
 ggsave("./output/boxplot_abundance.pdf", abund_box)
+
+#run T-test to see if difference between two site types are significant
+
+sprich_ttest <- t.test((subset(trawlsp, STATION_TYPE == "TidalCreek"))$SP_RICH, (subset(trawlsp, STATION_TYPE == "OpenWater"))$SP_RICH)
+abund_ttest  <- t.test((subset(trawlsp, STATION_TYPE == "TidalCreek"))$ABUNDANCE, (subset(trawlsp, STATION_TYPE == "OpenWater"))$ABUNDANCE)
+
+sprich_ttest$p.value
+abund_ttest$p.value
+
+#richness is significantly less in openwater sites than tidal creek sites, but the difference between abundances is not as significant
