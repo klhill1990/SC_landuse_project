@@ -1,0 +1,19 @@
+SCRIPT INFO
+
+1. mapping_scecap_stations
+Generates map of all SCECAP stations using ggplot2 and ggmap. 
+
+2. rarefaction
+Uses rarefaction to estimate species richness of all SCECAP stations based on the number of individuals caught. 
+
+3. site_summaries
+Provides general summaries of SCECAP trawl data such as total number of stations visited, overall species richness, average abundance, etc. Outputs a summary table.
+
+4. species_accumulation_years
+Uses species accumulation curves to show changes in species richness over time. This technique allows for the comparison of species richness across years with different numbers of stations.
+
+5. species_area_relationships
+Examines the relationship between trawl distances and species richness/abundance. 
+
+6. yearly_site_richness_abund_avgs
+This script calculates the average richness/abundance per station per year. It then plots these averages over time.
