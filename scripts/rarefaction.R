@@ -109,11 +109,10 @@ tidal_station_guide <- subset(station_guide, STATION_TYPE == "TidalCreek")
 output_openmatrix <- data.frame(STATION_ID = 1:300, YEAR = c(1999:2018))
 output_openmatrix$YEAR <- sort(output_openmatrix$YEAR)
 output_openmatrix
-sub_stations < NULL
+sub_stations <- NULL
 for(y in 1999:2018) 
   {
-  sub_stations[y,2] <- as.character(sample((subset(open_station_guide, YEAR == y)$STATION_ID), size = 15, replace = TRUE))
-
+  sub_stations[y,1] <- as.character(sample((subset(open_station_guide, YEAR == y)$STATION_ID), size = 15, replace = TRUE))
   }
 output_openmatrix$STATION_ID <- sub_stations
 
@@ -123,20 +122,23 @@ sub_stations <- as.character(sample((subset(open_station_guide, YEAR == 1999)$ST
 sub_stations
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+trawl_comm_matrix_df    
+final_out <- NULL
+for (y in 1999:2018)
+{
+
+  sub_station <- as.character(sample((subset(open_station_guide, YEAR == y)$STATION_ID), size = 15, replace = TRUE))
+  station_df <- data.frame(STATION_ID = c(sub_station))
+  station_join <- inner_join(trawl_comm_matrix_df, station_df, by = "STATION_ID")
+  
+  sum_cols <- colSums(station_join[,1:132])    
+  year_totals <- data.frame(YEAR = y, ABUNDANCE = sum_cols)    
+  year_totals$SP_CODE <- row.names(year_totals) 
+  final_out[[y]] <- year_totals
+
+}
+
+
+final_out[1999:2018]
+new_matrix <- create.matrix(my_years, tax.name = "SP_CODE", locality = "YEAR", abund = T, abund.col = "ABUNDANCE")
+new_matrix_t <- t(new_matrix)
