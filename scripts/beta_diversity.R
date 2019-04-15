@@ -4,6 +4,7 @@
 library(tidyverse)
 library(vegan)
 library(ggplot2)
+library(nlme)
 
 ###IMPORT DATASETS ----
 
@@ -76,7 +77,7 @@ output_ow$YEAR <- 1999:2018
 names(output_ow) <- c("RICHNESS", "SD" , "YEAR")
 openwater_gamma <- output_ow[c(3,1,2)]
 
-### CALCULATE ALPHA DIVERSITY ----
+###CALCULATE ALPHA DIVERSITY ----
 #average station-level species richness per year
 
 #use group by and summarize functions to calculate average species richness per station per year (separated by station type)
@@ -103,11 +104,10 @@ tidalcreek_beta$gamma_rich <- tidalcreek_gamma$RICHNESS
 openwater_beta$gamma_rich  <- openwater_gamma$RICHNESS
 
 #calculate beta richness in new column 
-tidalcreek_beta$beta_rich <- (tidalcreek_beta$SP_RICH_avg/tidalcreek_beta$gamma_rich)
-openwater_beta$beta_rich <- (openwater_beta$SP_RICH_avg/openwater_beta$gamma_rich)
+tidalcreek_beta$beta_rich <- (tidalcreek_beta$gamma_rich/tidalcreek_beta$SP_RICH_avg)
+openwater_beta$beta_rich <- (openwater_beta$gamma_rich/openwater_beta$SP_RICH_avg)
 
-### PLOT DIFFERENT SCALES OF RICHNESS BY YEAR ---
-
+#combine different scales of richness into one dataframe
 tidal_rich_all <- tidalcreek_beta
 names(tidal_rich_all) <- c("YEAR", "ALPHA_RICH", "GAMMA_RICH", "BETA_RICH")
 tidal_rich_all[c(1,2,4,3)]
@@ -116,4 +116,29 @@ open_rich_all <- openwater_beta
 names(open_rich_all) <- c("YEAR", "ALPHA_RICH", "GAMMA_RICH", "BETA_RICH")
 open_rich_all[c(1,2,4,3)]
 
-plot(BETA_RICH ~ YEAR, data = tidal_rich_all)
+open_rich_all$STATION_TYPE <- "OpenWater"
+tidal_rich_all$STATION_TYPE <- "TidalCreek"
+
+rich_all <- rbind(open_rich_all, tidal_rich_all)
+
+##PLOT RESULTS -----
+
+beta_richness_open  <-  qplot(data = open_rich_all, x = YEAR, y = BETA_RICH) +
+                        geom_smooth(method = "lm", se = T, col = 'black') +
+                        labs(title = "Beta Species Richness", subtitle = "Open Water SCECAP Stations (1999-2018)", y = "Species Richness", x = "Year")
+
+beta_richness_tidal <-  qplot(data = tidal_rich_all, x = YEAR, y = BETA_RICH) +
+                        geom_smooth(method = "lm", se = T, col = 'black') +
+                        labs(title = "Species Richness", subtitle = "Tidal Creek SCECAP Stations (1999-2018)", y = "Species Richness", x = "Year")
+
+ggsave("./output/beta_richness_open.pdf", beta_richness_open)
+ggsave("./output/beta_richness_tidal.pdf", beta_richness_tidal)
+
+##MODEL RESULTS ----
+
+#use GLS function with temporal autocorrelation (years) 
+beta_rich_open_gls  <- gls(BETA_RICH ~ YEAR, data = open_rich_all, correlation = corAR1(form = ~ YEAR))
+beta_rich_tidal_gls <- gls(BETA_RICH ~ YEAR, data = tidal_rich_all, correlation = corAR1(form = ~ YEAR))
+
+summary(beta_rich_open_gls)
+summary(beta_rich_tidal_gls)

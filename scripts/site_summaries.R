@@ -10,7 +10,7 @@ library(ggplot2)
 trawldata <- read.csv("./data/trawl_species_data_raw.csv")
 trawlsp <- read.csv("./data/trawl_richness_abundance.csv")
 
-#SITE SUMMARIES
+#SITE SUMMARIES ----
 
 ##group data by station type and summarize number of stations and total distance towed
 trawl_sites <- trawldata %>% group_by(STATION_TYPE) %>% summarize(n_distinct(STATION_ID), sum(TOW_DIST_m))
@@ -37,7 +37,7 @@ tidalcreek_abundance <- as.integer(abundance_by_type[2,2])
 openwater_abundance  <- as.integer(abundance_by_type[1,2])
 
 
-#RICHNESS SUMMARIES
+#RICHNESS SUMMARIES 
 
 ##first remove trawls with 'NA' or no catch
 trawldata <- filter(trawldata, SP_CODE != 'NA')
@@ -70,7 +70,7 @@ unique_open_spp     <- as.integer(trawl_open_spcount[1,2])
 unique_tidal_spp    <- as.integer(trawl_tidal_spcount[1,2])
 
 
-#ORGANIZE INFORMATION INTO TABLE
+#ORGANIZE INFORMATION INTO TABLE ----
 
 ##create blank dataframe with column labels
 trawl_summary_table <- as.data.frame(matrix(nrow = 3, ncol = 5))
@@ -90,11 +90,35 @@ png("./output/summary_table.png", height = 50*nrow(trawl_summary_table), width =
 grid.table(trawl_summary_table)
 dev.off()
 
+#CREATE HISTOGRAM TO SHOW TRAWL LENGTH DATA ----
 
-#CREATE BOXPLOTS TO SHOW DIFFERENCES IN STATION TYPE
+#group raw data by station, summarize data to get richness and abundance
+trawl_new <-  trawl_raw_data %>% 
+  group_by(STATION_ID, STATION_TYPE) %>% 
+  summarize(n_distinct(SP_CODE, na.rm = T), sum(ABUNDANCE))
+
+#total trawl distances by removing duplicate records created by rows of species, group by station, and total trawl tow distance
+trawl_tow_dist <- trawl_raw_data[,c(3,4,6)] %>% 
+  distinct(SAMPLE_ID, .keep_all = T) %>% 
+  group_by(STATION_ID) %>% 
+  summarize(sum(TOW_DIST_m))
+
+#combine resulting dataframes back into one
+trawl_dataset <- full_join(trawl_new, trawl_tow_dist, by = "STATION_ID")
+
+#rename columns
+names(trawl_dataset) <- c("STATION_ID", "STATION_TYPE", "SP_RICH", "ABUNDANCE", "TOW_DIST_m")
+
+#plot histogram of data and export as pdf
+tow_dist_histogram <- ggplot(trawl_dataset, aes(x=TOW_DIST_m, fill = STATION_TYPE)) + 
+                      geom_histogram(binwidth = 40) + 
+                      theme(legend.position = "bottom")
+
+ggsave("./output/histogram_towdistances.pdf", tow_dist_histogram)
+
+#CREATE BOXPLOTS TO SHOW DIFFERENCES IN STATION TYPE ----
 
 ##species richness
-
 sp_rich_box <- 
   ggplot(data = trawlsp, aes(x=STATION_TYPE, y=SP_RICH)) + 
   geom_boxplot() + 
@@ -102,7 +126,6 @@ sp_rich_box <-
   labs(y="Species Richness", x="SCECAP Station Type")
 
 ##total abundance
-
 abund_box <- 
   ggplot(data = trawlsp, aes(x=STATION_TYPE, y=log(ABUNDANCE))) + 
   geom_boxplot() + 
@@ -111,16 +134,12 @@ abund_box <-
 
 
 ##export as PDFs
-
 ggsave("./output/boxplot_richness.pdf", sp_rich_box)
 ggsave("./output/boxplot_abundance.pdf", abund_box)
 
 #run T-test to see if difference between two site types are significant
-
 sprich_ttest <- t.test((subset(trawlsp, STATION_TYPE == "TidalCreek"))$SP_RICH, (subset(trawlsp, STATION_TYPE == "OpenWater"))$SP_RICH)
 abund_ttest  <- t.test((subset(trawlsp, STATION_TYPE == "TidalCreek"))$ABUNDANCE, (subset(trawlsp, STATION_TYPE == "OpenWater"))$ABUNDANCE)
 
 sprich_ttest$p.value
 abund_ttest$p.value
-
-#richness is significantly less in openwater sites than tidal creek sites, but the difference between abundances is not as significant

@@ -106,12 +106,12 @@ sp_accum_tidalcreek_2003 <- plot(sp_accum03_tc, xlab = "Sites Sampled", ylab = "
 
 tidalcreek_plot <-  qplot(data = tidalcreek_final, x = YEAR, y = RICHNESS) +
                     geom_errorbar(aes(x= YEAR, ymin=RICHNESS - SD, ymax= RICHNESS + SD), width=0.25) +
-                    geom_smooth(method = "lm", se = F, col = 'black') +
+                    geom_smooth(method = "lm", se = T, col = 'black') +
                     labs(title = "Tidal Creek Species Richness", y = "Species Richness", x = "Year")
 
 openwater_plot <-   qplot(data = openwater_final, x = YEAR, y = RICHNESS) +
                     geom_errorbar(aes(x= YEAR, ymin=RICHNESS - SD, ymax= RICHNESS + SD), width=0.25) +
-                    geom_smooth(method = "lm", se = F, col = 'black') +
+                    geom_smooth(method = "lm", se = T, col = 'black') +
                     labs(title = "Open Water Species Richness", y = "Species Richness", x = "Year")
 
 
@@ -132,3 +132,5 @@ openwater_gls  <- gls(RICHNESS ~ YEAR, data = openwater_final, correlation = cor
 
 summary(tidalcreek_gls)
 summary(openwater_gls)
+
+
